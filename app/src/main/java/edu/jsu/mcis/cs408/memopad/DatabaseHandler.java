@@ -17,17 +17,17 @@ import java.util.List;
 public class DatabaseHandler extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "memopaddatabase.db";
-    private static final String TABLE_MEMO = "memo";
+    private static final String DATABASE_NAME = "memodatabase.db";
+    private static final String TABLE_MEMOS = "memos";
 
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_NOTE = "note";
 
-    public static final String QUERY_CREATE_MEMO_TABLE = "CREATE TABLE " + TABLE_MEMO + " (" + COLUMN_ID + " integer primary key autoincrement, " + COLUMN_NOTE + " text)";
-    public static final String QUERY_DELETE_MEMO_TABLE = "DROP TABLE IF EXISTS " + TABLE_MEMO;
+    public static final String QUERY_CREATE_MEMO_TABLE = "CREATE TABLE " + TABLE_MEMOS + " (" + COLUMN_ID + " integer primary key autoincrement, " + COLUMN_NOTE + " text)";
+    public static final String QUERY_DELETE_MEMO_TABLE = "DROP TABLE IF EXISTS " + TABLE_MEMOS;
 
-    public static final String QUERY_GET_ALL_NOTES = "SELECT * FROM " + TABLE_MEMO;
-    public static final String QUERY_GET_NOTE = "SELECT * FROM " + TABLE_MEMO + " WHERE " + COLUMN_ID + " = ?";
+    public static final String QUERY_GET_ALL_NOTES = "SELECT * FROM " + TABLE_MEMOS;
+    public static final String QUERY_GET_NOTE = "SELECT * FROM " + TABLE_MEMOS + " WHERE " + COLUMN_ID + " = ?";
 
     public DatabaseHandler(Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
 
@@ -56,7 +56,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(COLUMN_NOTE, m.getNote());
 
         SQLiteDatabase db = this.getWritableDatabase();
-        db.insert(TABLE_MEMO, null, values);
+        db.insert(TABLE_MEMOS, null, values);
         db.close();
 
     }
@@ -65,21 +65,21 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
-        db.delete(TABLE_MEMO, null, null);
+        db.delete(TABLE_MEMOS, null, null);
 
     }
 
-    public Memo getMemo(int id) {
+    public MemoPadModel getMemo(int id) {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
         Cursor cursor = db.rawQuery(QUERY_GET_NOTE, new String[]{ String.valueOf(id) });
-        Memo m = null;
+        MemoPadModel m = null;
 
         if (cursor.moveToFirst()) {
             int newId = cursor.getInt(0);
             String newName = cursor.getString(1);
-            m = new Memo(newId, newName);
+            m = new MemoPadModel(newId, newName);
             cursor.close();
         }
 
@@ -89,9 +89,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     }
 
-    public ArrayList<Memo> getAllMemosAsList() {
+    public ArrayList<MemoPadModel> getAllMemosAsList() {
 
-        ArrayList<Memo> allNotes = new ArrayList<>();
+        ArrayList<MemoPadModel> allNotes = new ArrayList<>();
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(QUERY_GET_ALL_NOTES, null);
