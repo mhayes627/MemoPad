@@ -34,8 +34,8 @@ public class MemoPadModel extends AbstractModel {
     public String toString() {
 
         StringBuilder s = new StringBuilder();
-        s.append(id).append(": ");
-        s.append(note).append("\n");
+        s.append("#").append(id).append(": ");
+        s.append(note);
         return s.toString();
 
     }

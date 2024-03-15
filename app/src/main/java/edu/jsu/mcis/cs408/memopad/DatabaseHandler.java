@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -102,6 +103,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
             do {
                 int id = cursor.getInt(0);
+                Log.i("DB", "ID: " + id);
                 allNotes.add( getMemo(id) );
             }
             while ( cursor.moveToNext() );
