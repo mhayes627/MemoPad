@@ -13,19 +13,18 @@ import edu.jsu.mcis.cs408.memopad.databinding.MemoItemBinding;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
-    private final List<MemoPadModel> data;
+    private final List<Memo> data;
 
-    public RecyclerViewAdapter(List<MemoPadModel> data) {
+    public RecyclerViewAdapter(List<Memo> data) {
+        super();
         this.data = data;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
         MemoItemBinding binding = MemoItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new ViewHolder(binding.getRoot());
-
     }
 
     @Override
@@ -37,19 +36,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     @Override
-    public int getItemCount() {
-        return data.size();
-    }
+    public int getItemCount() { return data.size(); }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        private MemoPadModel memo;
+        private Memo memo;
 
         public ViewHolder(View itemView) {
             super(itemView);
         }
 
-        public void setMemo(MemoPadModel memo) {
+        public void setMemo(Memo memo) {
             this.memo = memo;
         }
 

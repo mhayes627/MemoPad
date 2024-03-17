@@ -9,11 +9,7 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.List;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
 
@@ -51,7 +47,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     }
 
-    public void addMemo(MemoPadModel m) {
+    public void addMemo(Memo m) {
 
         ContentValues values = new ContentValues();
         values.put(COLUMN_MEMO, m.getMemo());
@@ -70,17 +66,17 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     }
 
-    public MemoPadModel getMemo(int id) {
+    public Memo getMemo(int id) {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
         Cursor cursor = db.rawQuery(QUERY_GET_MEMO, new String[]{ String.valueOf(id) });
-        MemoPadModel m = null;
+        Memo m = null;
 
         if (cursor.moveToFirst()) {
             int newId = cursor.getInt(0);
             String newName = cursor.getString(1);
-            m = new MemoPadModel(newId, newName);
+            m = new Memo(newId, newName);
             cursor.close();
         }
 
@@ -90,9 +86,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     }
 
-    public ArrayList<MemoPadModel> getAllMemosAsList() {
+    public ArrayList<Memo> getAllMemosAsList() {
 
-        ArrayList<MemoPadModel> allNotes = new ArrayList<>();
+        ArrayList<Memo> allNotes = new ArrayList<>();
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(QUERY_GET_ALL_MEMOS, null);

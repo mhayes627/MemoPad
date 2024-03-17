@@ -1,11 +1,12 @@
 package edu.jsu.mcis.cs408.memopad;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.View;
+import android.widget.Button;
 
 import java.beans.PropertyChangeEvent;
 
@@ -25,7 +26,7 @@ public class MainActivity extends AppCompatActivity implements AbstractView{
         View view = binding.getRoot();
         setContentView(view);
 
-        MemoPadModel model = new MemoPadModel("Default Memo");
+        MemoPadModel model = new MemoPadModel();
         controller = new MemoPadController(model);
 
 
@@ -37,20 +38,36 @@ public class MainActivity extends AppCompatActivity implements AbstractView{
         db = new DatabaseHandler(this, null, null, 1);
         updateRecyclerView();
 
-        binding.addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addNewMemo();
-            }
-        });
+        ButtonClickHandler click = new ButtonClickHandler();
+        ConstraintLayout layout = binding.layout;
 
+        for (int i = 0; i < layout.getChildCount(); ++i) {
+            View child = layout.getChildAt(i);
+            if(child instanceof Button) {
+                child.setOnClickListener(click);
+            }
+        }
 
     }
 
-    public void addNewMemo() {
+    private class ButtonClickHandler implements View.OnClickListener{
+        @Override
+        public void onClick(View v){
+            String tag = ((Button) v).getTag().toString();
 
-        String memo = binding.memoInput.getText().toString();
-        controller.addNewMemo(new MemoPadModel(memo));
+            if (tag.equals("add_button")){
+                String memo = binding.memoInput.getText().toString();
+                controller.addNewMemo(db, new Memo(memo));
+            }
+            else if (tag.equals("delete_button")){
+
+            }
+
+        }
+    }
+
+    public void modelPropertyChange(PropertyChangeEvent evt) {
+
         updateRecyclerView();
 
     }
@@ -64,8 +81,5 @@ public class MainActivity extends AppCompatActivity implements AbstractView{
 
     }
 
-    public void modelPropertyChange(final PropertyChangeEvent evt) {
 
-
-    }
 }

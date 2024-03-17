@@ -1,8 +1,8 @@
 package edu.jsu.mcis.cs408.memopad;
 
-public class MemoPadController extends AbstractController
-{
+public class MemoPadController extends AbstractController {
     private final MemoPadModel model;
+    public static final String ELEMENT_ADD_MEMO = "AddMemo";
 
     public MemoPadController(MemoPadModel model) {
         super();
@@ -10,8 +10,8 @@ public class MemoPadController extends AbstractController
         addModel(model);
     }
 
-    public void addNewMemo(MemoPadModel memo){
-        model.addNewMemo(memo);
+    public void addNewMemo(DatabaseHandler db, Memo memo){
+        model.addNewMemo(db, memo);
     }
 
 }
