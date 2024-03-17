@@ -9,24 +9,24 @@ public class MemoPadModel extends AbstractModel {
     public static final String TAG = "MemoPadModel";
 
     private int id;
-    private final String note;
+    private final String memo;
     private DatabaseHandler db;
 
-    public MemoPadModel(int id, String note) {
+    public MemoPadModel(int id, String memo) {
 
         this.id = id;
-        this.note = note;
+        this.memo = memo;
 
     }
 
-    public MemoPadModel(String note) {
+    public MemoPadModel(String memo) {
 
-        this.note = note;
+        this.memo = memo;
 
     }
 
-    public String getNote() {
-        return note;
+    public String getMemo() {
+        return memo;
     }
 
     @NonNull
@@ -35,16 +35,16 @@ public class MemoPadModel extends AbstractModel {
 
         StringBuilder s = new StringBuilder();
         s.append("#").append(id).append(": ");
-        s.append(note);
+        s.append(memo);
         return s.toString();
 
     }
 
-    public void addNewMemo(Memo memo){
+    public void addNewMemo(MemoPadModel memo){
         db.addMemo(memo);
     }
 
-    public Memo deleteMemo(Memo memo){
+    public MemoPadModel deleteMemo(MemoPadModel memo){
 
         return memo;
     }

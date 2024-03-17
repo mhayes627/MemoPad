@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity implements AbstractView{
         View view = binding.getRoot();
         setContentView(view);
 
-        MemoPadModel model = new MemoPadModel("Default Note");
+        MemoPadModel model = new MemoPadModel("Default Memo");
         controller = new MemoPadController(model);
 
 
@@ -49,8 +49,8 @@ public class MainActivity extends AppCompatActivity implements AbstractView{
 
     public void addNewMemo() {
 
-        String note = binding.memoInput.getText().toString();
-        db.addMemo(new Memo(note));
+        String memo = binding.memoInput.getText().toString();
+        controller.addNewMemo(new MemoPadModel(memo));
         updateRecyclerView();
 
     }

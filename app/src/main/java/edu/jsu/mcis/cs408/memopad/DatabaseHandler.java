@@ -22,13 +22,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String TABLE_MEMOS = "memos";
 
     public static final String COLUMN_ID = "_id";
-    public static final String COLUMN_NOTE = "note";
+    public static final String COLUMN_MEMO = "memo";
 
-    public static final String QUERY_CREATE_MEMO_TABLE = "CREATE TABLE " + TABLE_MEMOS + " (" + COLUMN_ID + " integer primary key autoincrement, " + COLUMN_NOTE + " text)";
+    public static final String QUERY_CREATE_MEMO_TABLE = "CREATE TABLE " + TABLE_MEMOS + " (" + COLUMN_ID + " integer primary key autoincrement, " + COLUMN_MEMO + " text)";
     public static final String QUERY_DELETE_MEMO_TABLE = "DROP TABLE IF EXISTS " + TABLE_MEMOS;
 
-    public static final String QUERY_GET_ALL_NOTES = "SELECT * FROM " + TABLE_MEMOS;
-    public static final String QUERY_GET_NOTE = "SELECT * FROM " + TABLE_MEMOS + " WHERE " + COLUMN_ID + " = ?";
+    public static final String QUERY_GET_ALL_MEMOS = "SELECT * FROM " + TABLE_MEMOS;
+    public static final String QUERY_GET_MEMO = "SELECT * FROM " + TABLE_MEMOS + " WHERE " + COLUMN_ID + " = ?";
 
     public DatabaseHandler(Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
 
@@ -51,10 +51,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     }
 
-    public void addMemo(Memo m) {
+    public void addMemo(MemoPadModel m) {
 
         ContentValues values = new ContentValues();
-        values.put(COLUMN_NOTE, m.getNote());
+        values.put(COLUMN_MEMO, m.getMemo());
 
         SQLiteDatabase db = this.getWritableDatabase();
         db.insert(TABLE_MEMOS, null, values);
@@ -74,7 +74,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
-        Cursor cursor = db.rawQuery(QUERY_GET_NOTE, new String[]{ String.valueOf(id) });
+        Cursor cursor = db.rawQuery(QUERY_GET_MEMO, new String[]{ String.valueOf(id) });
         MemoPadModel m = null;
 
         if (cursor.moveToFirst()) {
@@ -95,7 +95,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         ArrayList<MemoPadModel> allNotes = new ArrayList<>();
 
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(QUERY_GET_ALL_NOTES, null);
+        Cursor cursor = db.rawQuery(QUERY_GET_ALL_MEMOS, null);
 
         if (cursor.moveToFirst()) {
 

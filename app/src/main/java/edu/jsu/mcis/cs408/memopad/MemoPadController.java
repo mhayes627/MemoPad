@@ -10,4 +10,8 @@ public class MemoPadController extends AbstractController
         addModel(model);
     }
 
+    public void addNewMemo(MemoPadModel memo){
+        model.addNewMemo(memo);
+    }
+
 }
