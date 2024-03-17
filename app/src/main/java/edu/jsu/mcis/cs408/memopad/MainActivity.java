@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.beans.PropertyChangeEvent;
 
@@ -18,6 +19,8 @@ public class MainActivity extends AppCompatActivity implements AbstractView{
     private ActivityMainBinding binding;
 
     private DatabaseHandler db;
+    private final MemoPadItemClickHandler itemClick = new MemoPadItemClickHandler();
+    private int selectedMemo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements AbstractView{
         controller.addView(this);
         controller.addModel(model);
 
-        db = new DatabaseHandler(this, null, null, 1);
+        db = new DatabaseHandler(this, "memodatabase.db", null, 1);
         updateRecyclerView();
 
         ButtonClickHandler click = new ButtonClickHandler();
@@ -60,26 +63,36 @@ public class MainActivity extends AppCompatActivity implements AbstractView{
                 controller.addNewMemo(db, new Memo(memo));
             }
             else if (tag.equals("delete_button")){
-
+                controller.deleteMemo(db, selectedMemo);
             }
 
         }
     }
 
-    public void modelPropertyChange(PropertyChangeEvent evt) {
-
-        updateRecyclerView();
-
-    }
+    public void modelPropertyChange(PropertyChangeEvent evt) { updateRecyclerView(); }
 
     private void updateRecyclerView() {
 
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(db.getAllMemosAsList());
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, db.getAllMemosAsList());
         binding.output.setHasFixedSize(true);
         binding.output.setLayoutManager(new LinearLayoutManager(this));
         binding.output.setAdapter(adapter);
 
     }
 
+    private class MemoPadItemClickHandler implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            int position = binding.output.getChildLayoutPosition(v);
+            RecyclerViewAdapter adapter = (RecyclerViewAdapter)binding.output.getAdapter();
+            if (adapter != null) {
+                Memo memo = adapter.getItem(position);
+                selectedMemo = memo.getId();
+                Toast.makeText(v.getContext(), String.valueOf(selectedMemo), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    public MemoPadItemClickHandler getItemClick() { return itemClick; }
 
 }

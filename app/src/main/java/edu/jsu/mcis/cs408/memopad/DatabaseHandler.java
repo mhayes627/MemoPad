@@ -58,11 +58,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     }
 
-    public void deleteAllMemo() {
+    public void deleteMemo(int id) {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
-        db.delete(TABLE_MEMOS, null, null);
+        db.delete(TABLE_MEMOS, COLUMN_ID + "=?", new String[]{ String.valueOf(id) });
 
     }
 
